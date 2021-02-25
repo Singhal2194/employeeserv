@@ -16,7 +16,7 @@ public interface EmployeeResource {
 
 
     /**
-     * Retrieves the {@link Employee} resource by id.
+     * create the {@link Employee} resource.
      *
      * @param employee employee data.
      * @return {@link Employee} resource.
