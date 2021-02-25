@@ -7,16 +7,18 @@ import com.paypal.bfs.test.employeeserv.entity.EmployeeEntity;
 import com.paypal.bfs.test.employeeserv.exception.InvalidRequestException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.Optional;
 
+@Component
 public class RequestValidator {
 
     @Autowired
     private EmployeeDao employeeDao;
 
-    private static void validateAddress(Address address) {
+    private void validateAddress(Address address) {
 
         if (Objects.isNull(address))
             throw new InvalidRequestException("address cannot be null/empty");
@@ -34,10 +36,6 @@ public class RequestValidator {
 
     public void validateCreateRequest(Employee employee) {
 
-        if (recordAlreadyExists(employee)) {
-            throw new InvalidRequestException("Employee with given id exists");
-        }
-
         if (Objects.isNull(employee)) {
             throw new InvalidRequestException("request cannot be null");
         }
@@ -54,10 +52,14 @@ public class RequestValidator {
             throw new InvalidRequestException("date of birth cannot be null/empty");
         }
         validateAddress(employee.getAddress());
+
+        if (recordAlreadyExists(employee)) {
+            throw new InvalidRequestException("Employee with given id already exists");
+        }
     }
 
     private boolean recordAlreadyExists(Employee employee) {
-        Optional<EmployeeEntity> employeeEntity = employeeDao.findById(employee.getId());
+        Optional<EmployeeEntity> employeeEntity = employeeDao.findByEmpId(employee.getId());
         return employeeEntity.isPresent();
     }
 }
