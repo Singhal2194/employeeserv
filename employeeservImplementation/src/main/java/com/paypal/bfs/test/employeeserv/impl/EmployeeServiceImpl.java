@@ -7,12 +7,18 @@ import com.paypal.bfs.test.employeeserv.dao.AddressDao;
 import com.paypal.bfs.test.employeeserv.dao.EmployeeDao;
 import com.paypal.bfs.test.employeeserv.entity.AddressEntity;
 import com.paypal.bfs.test.employeeserv.entity.EmployeeEntity;
+import com.paypal.bfs.test.employeeserv.utils.EmployeeUtils;
 import com.paypal.bfs.test.employeeserv.utils.RequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.Optional;
+
+
+/**
+ * Implementation class for employee service.
+ */
 
 @Component
 public class EmployeeServiceImpl implements EmployeeService {
@@ -29,6 +35,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(Employee employee) {
+
+        // if id is not present in the request, it will be generated automatically
+        if (employee.getId() == null) {
+            employee.setId(EmployeeUtils.generateUniqueEmpId());
+        }
 
         requestValidator.validateCreateRequest(employee);
 
@@ -61,7 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee getEmployeeById(String id) {
 
         Integer empId = Integer.valueOf(id);
-        Optional<EmployeeEntity> employeeEntity = employeeDao.findById(empId);
+        Optional<EmployeeEntity> employeeEntity = employeeDao.findByEmpId(empId);
 
         if (!employeeEntity.isPresent()) {
             return null;
@@ -78,7 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Address getEmployeeAddress(Integer empId) {
 
-        Optional<AddressEntity> addressEntity = addressDao.findById(empId);
+        Optional<AddressEntity> addressEntity = addressDao.findByEmpId(empId);
         Address address = new Address();
         address.setLine1(addressEntity.get().getLine1());
         address.setLine2(addressEntity.get().getLine2());
