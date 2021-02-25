@@ -39,7 +39,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(RecordNotFoundException.class)
     public final ResponseEntity<Object> handleRecordNotFoundException(RecordNotFoundException ex, WebRequest request) {
         ErrorResponse error = new ErrorResponse("Record Not Found");
