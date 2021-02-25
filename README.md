@@ -34,4 +34,39 @@ We would like you to enhance the existing project and see you complete the follo
 - Idempotency logic is implemented to avoid duplicate resource creation.
 
 ## Assignment submission
-Thank you very much for your time to take this test. Please upload this complete solution in Github and send us the link to `bfs-sor-interview@paypal.com`.
+- date of birth and address with the above required fields has been added.
+- for address, separate table has been created to store the address of an employee. emp_id is foreign key 
+- if id is not present in the request, emp id will be generated in the code itself.
+- validation and exception handling is being added.
+- idempotency logic is handled at the code and at the db level as well.
+- if the generated id or the id passed in the request is already present, exception will be thrown.
+- unit test cases are being added to validate implementation.
+
+## curls
+
+CREATE RESOURCE curl
+
+curl --location --request POST 'http://localhost:8080/v1/bfs/employees/create' \
+--header 'Cache-Control: no-cache' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 9257
+    "first_name": "satish",
+    "last_name": "agarwal",
+    "date_of_birth": "2020-02-23",
+    "address": {
+        "line1": "harlur road",
+        "line2": "sarjapur",
+        "city": "bangalore",
+        "state": "karnataka",
+        "country": "india",
+        "zip_code": 5600102
+    }
+}'
+
+GET RESOURCE CURL
+
+curl --location --request GET 'http://localhost:8080/v1/bfs/employees/9257' \
+--header 'Cache-Control: no-cache' \
+--header 'Content-Type: application/json' \
+
