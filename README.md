@@ -50,7 +50,7 @@ curl --location --request POST 'http://localhost:8080/v1/bfs/employees/create' \
 --header 'Cache-Control: no-cache' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "id": 9257
+    "id": 9257,
     "first_name": "satish",
     "last_name": "agarwal",
     "date_of_birth": "2020-02-23",
