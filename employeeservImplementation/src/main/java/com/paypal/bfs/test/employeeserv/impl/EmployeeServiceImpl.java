@@ -40,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee.getId() == null) {
             employee.setId(EmployeeUtils.generateUniqueEmpId());
         }
-
+        // validate request
         requestValidator.validateCreateRequest(employee);
 
         EmployeeEntity employeeEntity = new EmployeeEntity();
@@ -73,11 +73,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Integer empId = Integer.valueOf(id);
         Optional<EmployeeEntity> employeeEntity = employeeDao.findByEmpId(empId);
-
         if (!employeeEntity.isPresent()) {
             return null;
         }
-
         Employee employee = new Employee();
         employee.setId(empId);
         employee.setFirstName(employeeEntity.get().getFirstName());
